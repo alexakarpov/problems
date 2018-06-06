@@ -8,3 +8,9 @@
     (is (= :error (atoi [\1 \2 \x])))
     (is (= 42 (atoi [\0 \4 \2])))))
 
+(deftest is-palindrome-test
+  (testing "palindrome testing works"
+    (is (= true (is-palindrome? "qwewq")))
+    (is (= true (is-palindrome? "a")))
+    (is (= true (is-palindrome? "")))
+    (is (= false (is-palindrome? "qwezwq")))))
