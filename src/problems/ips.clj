@@ -25,13 +25,15 @@
   (map fun ip_array))
 
 (check-ips classify ["123.23.3.567",
-                     "aaaa:bbbb:cccc:1111:6789:abcd:0:0",
+                     "aaaa:bbbb:cccc:1111:6789:abcd:1011:2022",
+                     "21DA:D3:0:2F3B:2AA:FF:FE28:9C5A",
                      "aaaa::1111:6789:abcd:0:0",
-                     "21DA::0:2F3B:2AA:FF:FE28:9C5A",
+                     "21DA::2F3B:2AA:FF:FE28::9C5A",
                      "qweasd"])
 
 (check-ips classify2 ["123.23.3.567",
-                      "aaaa:bbbb:cccc:1111:6789:abcd:0:0",
-                      "aaaa::1111:6789:abcd:0:0",
+                      "aaaa:bbbb:cccc:1111:6789:abcd:1011:2022",
                       "21DA:D3:0:2F3B:2AA:FF:FE28:9C5A",
+                      "aaaa::1111:6789:abcd:0:0",
+                      "21DA::2F3B:2AA:FF:FE28::9C5A",
                       "qweasd"])
