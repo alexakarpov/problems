@@ -76,3 +76,16 @@
         (let [[s1 s2] (split-at (/ c 2) s)]
           (= (reduce + (map int s1))
              (reduce + (map int s2)))))))
+
+(defn sortByHeight [a]
+  (let [xs (sort (filter #(> % 0) a))
+        _ (println xs)
+        [_ _ out] (reduce (fn [[[o & r-os :as os] [x & r-xs :as xs] a-out] x]
+                     (if (= -1 o)
+                       [r-os xs (conj a-out -1)]
+                       [r-os r-xs (conj a-out x)]))
+                   [a xs []]
+                   a)]
+    out))
+
+(sortByHeight [-1, 150, 190, 170, -1, -1, 160, 180])
