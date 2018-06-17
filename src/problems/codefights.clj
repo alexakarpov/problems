@@ -23,34 +23,48 @@
         _ (println pairs)]
     (apply max (map #(* (first %) (second %)) pairs))))
 
-(adjacentElementsProduct [1 2 3 4 5 6])
-
-(apply max [1 2 3 4])
-
-
-(defn any-pairs-overlap? [ps]
-  (let [recer (fn [[b ov] v]
-                (and b (< ov v)))]
-    (reduce recer [true -1] ps)))
-
-(any-pairs-overlap? [[1 2] [3 4] [4 7]])
-
 (defn almostIncreasingSequence [s]
-  (let [ps (partition 2 1 s)
-        _ (println ps)
-        cleared (filter #(< (first %) (second %)) ps)
-        _ (println cleared)]
-    (or (= (count cleared) (count ps))
-        (and
-         (< (- (count ps) (count cleared)) 2)
-         
-         ;; after clearing the dip itself, what about the climbing back up steps?
-         ))))
+  (let [strictly-increasing?
+        (fn [xs]
+          (let [a (reduce (fn [[prev acc n] x]
+                            (let [res (and acc (< prev x))]
+                              (if res [x res (inc n)]
+                                  (reduced [false n]))))
+                          [(first xs) true 0]
+                          (rest xs))]
+               (if (= 3 (count a)) true a)))
+        check (strictly-increasing? s)]
+    (if (= 1 (count check)) true
+        (let [remove-n (fn [v n] (concat (subvec v 0 n) (subvec v (inc n))))
+              r1 (remove-n s (second check))
+              r2 (remove-n s (inc (second check)))
+              a1 (strictly-increasing? r1)
+              a2 (strictly-increasing? r2)]
+          (if (true? a1) true (true? a2))))))
 
 
-(assert (= false
-           (almostIncreasingSequence [1 3 2 1])))
+(defn allLongestStrings [inputArray] 
+  (let [len (reduce #(max %1 (count %2)) 0 inputArray)
+        _ (println len)]
+    (filter #(= len (count %)) inputArray)))
 
-(assert (= false (almostIncreasingSequence [1 2 1 2])))
 
-(assert (= false (almostIncreasingSequence [1, 2, 3, 4, 5, 3, 5, 6])))
+(defn char-seq->map [s]
+  (reduce (fn [acc c]
+            (if (contains? acc c)
+              (update-in acc [c] inc)
+              (assoc acc c 1)))
+          {}
+          s))
+
+(defn commonCharacterCount [s1 s2]
+  (let [[m o]
+        (reduce (fn [[acc-in acc-out] c]
+                  (if (or (nil? (acc-in c))
+                          (zero? (acc-in c)))
+                    [acc-in acc-out]
+                    [(update-in acc-in [c] dec)
+                     (conj acc-out c)]))
+                [(char-seq->map s2) []]
+                s1)]
+    (count o)))
