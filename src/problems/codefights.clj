@@ -68,3 +68,11 @@
                 [(char-seq->map s2) []]
                 s1)]
     (count o)))
+
+(defn isLucky [n]
+  (let [s (str n)
+        c (count s)]
+    (if (odd? c) false
+        (let [[s1 s2] (split-at (/ c 2) s)]
+          (= (reduce + (map int s1))
+             (reduce + (map int s2)))))))
